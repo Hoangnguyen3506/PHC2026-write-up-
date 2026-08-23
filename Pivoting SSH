@@ -1,0 +1,10 @@
+ssh with dynamic port forwarding 
+ssh -D 1080 user@10.10.0.165 -p 2222
+scan for the subnet for the webserver 
+naabu --proxy localhost:1080 -host 10.152.152.0/24 \
+10.152.152.10:22 (ssh)
+10.152.152.93:8080 (web-server) 
+
+curl -x socks5h://localhost:1080 http://10.152.152.93:8080 
+the flag is 
+cybered{f538d1beff19fc9dff6a3d32a5960e02}

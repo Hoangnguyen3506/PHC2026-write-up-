@@ -1,0 +1,5 @@
+Enumeration 
+
+try using ps aux after ssh into the flag
+
+ps aux | grep flag 

