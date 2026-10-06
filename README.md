@@ -12,13 +12,13 @@ To pass the camp, the following tasks must be solved. Each one has its own folde
 
 | # | Task | Folder | Status |
 |---|------|--------|--------|
-| 1 | Recon | [`Recon`](./Recon) | ⬜ |
-| 2 | Exploit known vulnerabilities in network services | [`Exploit Known vulnerabilities in network services`](./Exploit%20Known%20vulnerabilities%20in%20network%20services) | ⬜ |
-| 3 | Web application hacking | [`Webapp_Hacking`](./Webapp_Hacking) | ⬜ |
-| 4 | Privilege escalation | [`Privilege Escalation`](./Privilege%20Escalation) | ⬜ |
-| 5 | Network routing traffic | [`Network Routing Traffic`](./Network%20Routing%20Traffic) | ⬜ |
+| 1 | Recon | [`Recon`](./Recon) | 
+| 2 | Exploit known vulnerabilities in network services | [`Exploit Known vulnerabilities in network services`](./Exploit%20Known%20vulnerabilities%20in%20network%20services) | 
+| 3 | Web application hacking | [`Webapp_Hacking`](./Webapp_Hacking) | 
+| 4 | Privilege escalation | [`Privilege Escalation`](./Privilege%20Escalation) | 
+| 5 | Network routing traffic | [`Network Routing Traffic`](./Network%20Routing%20Traffic) | 
 
-> Update the status column to ✅ as each task is completed.
+
 
 ## Task overview
 
