@@ -10,8 +10,8 @@ Hi, I'm **Nguyen Duy Hoang**, a 2026 Positive Hack Camp participant and a studen
 
 To pass the camp, the following tasks must be solved. Each one has its own folder with a detailed write-up.
 
-| # | Task | Folder | Status |
-|---|------|--------|--------|
+| # | Task | Folder |
+|---|------|--------|
 | 1 | Recon | [`Recon`](./Recon) | 
 | 2 | Exploit known vulnerabilities in network services | [`Exploit Known vulnerabilities in network services`](./Exploit%20Known%20vulnerabilities%20in%20network%20services) | 
 | 3 | Web application hacking | [`Webapp_Hacking`](./Webapp_Hacking) | 
